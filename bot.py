@@ -10,13 +10,16 @@ class AutoReplyBot(Client):
 
 		if author_id != self.uid and thread_type == ThreadType.USER:
 			messages = client.fetchThreadMessages(thread_id, limit=30)
+
 			for i in range(0, len(messages)):
 				if(messages[i].author == self.uid):
 					lastmessage = messages[i]
 					break
-
-			away = (int(time.time() - (int(lastmessage.timestamp))/1000)/60)
-			if(away >= 10):
+			if 'lastmessage' in locals():
+				away = (int(time.time() - (int(lastmessage.timestamp))/1000)/60)
+				if(away >= 10):
+					self.sendMessage("Ai gọi đó, nếu là thỏ, cho xem tai, nếu là nai, cho xem gạc, còn không thì cút mẹ mày đi.", thread_id=thread_id, thread_type=thread_type)
+			else:
 				self.sendMessage("Ai gọi đó, nếu là thỏ, cho xem tai, nếu là nai, cho xem gạc, còn không thì cút mẹ mày đi.", thread_id=thread_id, thread_type=thread_type)
 
 client = AutoReplyBot(username, password)
